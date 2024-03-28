@@ -5,7 +5,8 @@ export default function Blocker() {
     <div className="blocker">
       <div className="blocker-container">
         <h1 className="blocker-text">
-          Hi! This app was developed with landscape orientation in mind.
+          Hi! This app was developed with landscape orientation in mind for
+          immersion.
           <br />
           <br />
           If you're on mobile, please turn your device on its side. <br />
