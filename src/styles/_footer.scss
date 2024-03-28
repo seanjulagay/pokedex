@@ -1,0 +1,16 @@
+@use "variables" as *;
+
+.footer {
+  .footer-container {
+    margin: $outside-text-margin;
+    color: white;
+    .footer-text {
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      a {
+        color: $hyperlink-blue;
+      }
+    }
+  }
+}

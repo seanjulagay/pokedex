@@ -1,0 +1,28 @@
+$small: 576px;
+$medium: 768px;
+$large: 992px;
+$xl: 1200px;
+
+@mixin sm {
+  @media (min-width: $small) and (orientation: landscape) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: $medium) and (orientation: landscape) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: $large) and (orientation: landscape) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: $xl) and (orientation: landscape) {
+    @content;
+  }
+}

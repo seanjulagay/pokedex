@@ -1,0 +1,21 @@
+@use "variables" as *;
+
+.app {
+  height: 100vh;
+  width: 100vw;
+  .app-container {
+    height: inherit;
+    width: inherit;
+    .app-content {
+      height: inherit;
+      width: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      @media only screen and (orientation: portrait) {
+        display: none;
+      }
+    }
+  }
+}

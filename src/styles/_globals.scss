@@ -1,0 +1,32 @@
+@use "variables" as *;
+
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-tap-highlight-color: transparent;
+  margin: 0;
+  padding: 0;
+  /*user-select: none;
+  &:focus {
+    outline: none;
+  }*/
+  font-family: "Pixelify Sans", monospace;
+}
+
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-size: 62.5%;
+}
+
+body {
+  background-color: $background-color-gray;
+}
+
+.outside-text {
+  font-size: $outside-text-font-size;
+}
