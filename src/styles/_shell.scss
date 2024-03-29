@@ -80,14 +80,6 @@
           cursor: pointer;
         }
       }
-      // .shell-scroll-parents {
-      //   display: flex;
-      //   .shell-scroll-parent {
-      //     background-size: cover;
-      //     height: 100%;
-      //     width: 50%;
-      //   }
-      // }
       .shell-scroll-parents {
         position: absolute;
         display: flex;
@@ -95,29 +87,26 @@
         .shell-scroll-parent {
           display: flex;
           justify-content: center;
-          // background-color: red;
+          align-items: center;
           height: 100%;
           width: 100%;
-          background-position: center;
-          background-repeat: no-repeat;
           background-size: cover;
-          cursor: pointer;
-          // outline: 1px solid black;
-          // .dex-scroll-overlay {
-          //   height: 100%;
-          //   width: 100%;
-          //   background-repeat: no-repeat;
-          //   background-size: 40%;
-          //   background-position: center;
-          //   &:not(:hover) {
-          //     opacity: 0;
-          //     transition: opacity 0.3s ease-in-out;
-          //   }
-          //   &:hover {
-          //     opacity: 1;
-          //     transition: opacity 0.15s ease-in-out;
-          //   }
-          // }
+          &:hover {
+            cursor: pointer;
+          }
+          .shell-scroll-arrow {
+            height: 100%;
+            width: 50%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.2s ease-in-out;
+            &:hover {
+              transition: opacity 0.2s ease-in-out;
+              opacity: 1;
+            }
+          }
         }
       }
     }

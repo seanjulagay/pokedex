@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { scaleShell } from "../scripts/ScaleManager";
 import dexShellClosed from "../../public/images/dex/dex-closed.png";
 import dexShellOpened from "../../public/images/dex/dex-opened.png";
 import dexPowerButton from "../../public/images/dex/dex-power-button.png";
@@ -10,8 +11,16 @@ import dexDpadDown from "../../public/images/dex/dex-dpad-down.png";
 import dexSearchBtn from "../../public/images/dex/dex-search-btn.png";
 import dexLeftScroll from "../../public/images/dex/dex-left-scroll.png";
 import dexRightScroll from "../../public/images/dex/dex-right-scroll.png";
+import dexScrollDown from "../../public/images/dex/dex-scroll-down.png";
+import dexScrollUp from "../../public/images/dex/dex-scroll-up.png";
 
 export default function Shell() {
+  useEffect(() => {
+    setTimeout(() => {
+      scaleShell();
+    }, 100);
+  }, []);
+
   return (
     <div className="shell">
       <div className="shell-container">
@@ -60,12 +69,24 @@ export default function Shell() {
             <div
               style={{ backgroundImage: `url(${dexLeftScroll})` }}
               className="shell-scroll-parent"
-            ></div>
+            >
+              <div
+                style={{ backgroundImage: `url(${dexScrollUp})` }}
+                className="shell-scroll-arrow shell-scroll-up"
+              ></div>
+            </div>
             <div
               style={{ backgroundImage: `url(${dexRightScroll})` }}
               className="shell-scroll-parent"
-            ></div>
+            >
+              <div
+                style={{ backgroundImage: `url(${dexScrollDown})` }}
+                className="shell-scroll-arrow shell-scroll-down"
+              ></div>
+            </div>
           </div>
+          <div className="shell-screen shell-left-screen shell-interactable"></div>
+          <div className="shell-screen shell-right-screen shell-interactable"></div>
         </div>
       </div>
     </div>
