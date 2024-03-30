@@ -2,6 +2,10 @@
   .hidden {
     opacity: 0;
   }
+  :not(.hidden) {
+    opacity: 1;
+    transition: 0.05s opacity ease-in-out;
+  }
   .shell-container {
     display: flex;
     align-items: center;

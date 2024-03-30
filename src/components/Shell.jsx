@@ -1,6 +1,11 @@
-import React, { useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
+import Directory from "./Directory";
 import { scaleShell } from "../scripts/ScaleManager";
-import { ShellOpenedContext } from "./Dex";
+import {
+  CurrentIDContext,
+  DirectoryPageContext,
+  ShellOpenedContext,
+} from "./Dex";
 import { AppLoadedContext } from "./App";
 import dexShellClosed from "../../public/images/dex/dex-closed.png";
 import dexShellOpened from "../../public/images/dex/dex-opened.png";
@@ -15,10 +20,14 @@ import dexLeftScroll from "../../public/images/dex/dex-left-scroll.png";
 import dexRightScroll from "../../public/images/dex/dex-right-scroll.png";
 import dexScrollDown from "../../public/images/dex/dex-scroll-down.png";
 import dexScrollUp from "../../public/images/dex/dex-scroll-up.png";
+import axios from "axios";
 
 export default function Shell() {
   const [shellOpened, setShellOpened] = useContext(ShellOpenedContext);
   const [appLoaded, setAppLoaded] = useContext(AppLoadedContext);
+  const [directoryPage, setDirectoryPage] = useContext(DirectoryPageContext);
+  const [currentID, setCurrentID] = useContext(CurrentIDContext);
+  const [totalPokemon, setTotalPokemon] = useState(1000);
 
   const imagesToPreload = [
     dexShellClosed,
@@ -46,12 +55,40 @@ export default function Shell() {
       scaleShell();
       setAppLoaded(true);
     }, 1000);
+    fetchTotalPokemonCount();
   }, []);
+
+  const fetchTotalPokemonCount = async () => {
+    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon`);
+    setTotalPokemon(response.data.count);
+  };
 
   const preloadImages = () => {
     for (const image of imagesToPreload) {
       const imageElement = new Image();
       imageElement.src = image;
+    }
+  };
+
+  const handleDpadInteraction = (direction) => {
+    const totalPages = Math.ceil(totalPokemon / 8);
+
+    if (direction == "up") {
+      if (currentID < totalPokemon) {
+        setCurrentID((currentID) => currentID - 1);
+      }
+    } else if (direction == "down") {
+      if (currentID > 0) {
+        setCurrentID((currentID) => currentID + 1);
+      }
+    } else if (direction == "left") {
+      if (directoryPage > 0) {
+        setDirectoryPage((directoryPage) => directoryPage - 1);
+      }
+    } else if (direction == "right") {
+      if (directoryPage <= totalPages) {
+        setDirectoryPage((directoryPage) => directoryPage + 1);
+      }
     }
   };
 
@@ -83,22 +120,26 @@ export default function Shell() {
               <div
                 style={{ backgroundImage: `url(${dexDpadUp})` }}
                 className="shell-dpad-up dpad-btn"
+                onClick={() => handleDpadInteraction("up")}
               ></div>
             </div>
             <div className="shell-dpad-middle-row">
               <div
                 style={{ backgroundImage: `url(${dexDpadLeft})` }}
                 className="shell-dpad-left dpad-btn"
+                onClick={() => handleDpadInteraction("left")}
               ></div>
               <div
                 style={{ backgroundImage: `url(${dexDpadRight})` }}
                 className="shell-dpad-right dpad-btn"
+                onClick={() => handleDpadInteraction("right")}
               ></div>
             </div>
             <div className="shell-dpad-bottom-row">
               <div
                 style={{ backgroundImage: `url(${dexDpadDown})` }}
                 className="shell-dpad-down dpad-btn"
+                onClick={() => handleDpadInteraction("down")}
               ></div>
             </div>
           </div>
@@ -136,7 +177,9 @@ export default function Shell() {
             className={`shell-screen shell-left-screen shell-interactable ${
               shellOpened ? "" : "hidden"
             }`}
-          ></div>
+          >
+            <Directory />
+          </div>
           <div
             className={`shell-screen shell-right-screen shell-interactable ${
               shellOpened ? "" : "hidden"
