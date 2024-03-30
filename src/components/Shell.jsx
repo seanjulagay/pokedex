@@ -20,16 +20,40 @@ export default function Shell() {
   const [shellOpened, setShellOpened] = useContext(ShellOpenedContext);
   const [appLoaded, setAppLoaded] = useContext(AppLoadedContext);
 
+  const imagesToPreload = [
+    dexShellClosed,
+    dexShellOpened,
+    dexPowerButton,
+    dexDpadParent,
+    dexDpadUp,
+    dexDpadLeft,
+    dexDpadRight,
+    dexDpadDown,
+    dexSearchBtn,
+    dexLeftScroll,
+    dexRightScroll,
+    dexScrollDown,
+    dexScrollUp,
+  ];
+
   const handleShellState = () => {
     shellOpened ? setShellOpened(false) : setShellOpened(true);
   };
 
   useEffect(() => {
+    preloadImages();
     setTimeout(() => {
       scaleShell();
       setAppLoaded(true);
     }, 1000);
   }, []);
+
+  const preloadImages = () => {
+    for (const image of imagesToPreload) {
+      const imageElement = new Image();
+      imageElement.src = image;
+    }
+  };
 
   return (
     <div className="shell">
