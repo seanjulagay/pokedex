@@ -1,0 +1,28 @@
+@use "variables" as *;
+
+.loading {
+  z-index: 10;
+  height: 100%;
+  width: 100%;
+  background-color: $background-color-gray;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: 0.5s all ease-in-out;
+  }
+  .loading-img {
+    height: 15rem;
+    width: 15rem;
+    margin-top: -5rem;
+  }
+  .loading-text {
+    font-family: "Pixelify Sans", monospace;
+    color: white;
+    font-size: $hints-font-size;
+  }
+}

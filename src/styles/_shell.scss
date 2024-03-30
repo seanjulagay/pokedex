@@ -1,12 +1,24 @@
 .shell {
+  .hidden {
+    opacity: 0;
+  }
   .shell-container {
     display: flex;
     align-items: center;
     justify-content: center;
+    &.shell-closed {
+      transform: translateX(25%);
+      transition: transform 0.5s ease-in-out;
+    }
+    &.shell-opened {
+      transition: transform 0.5s ease-in-out;
+    }
     .shell-img {
       max-height: 75vh;
       max-width: 75vw;
+      position: relative;
     }
+
     .shell-components {
       position: absolute;
       .shell-interactable {

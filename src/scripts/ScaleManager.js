@@ -94,11 +94,11 @@ export function scaleShell() {
 
   // Call and listener statements
   scaleElements();
-  scaleText();
+  // scaleText();
 
-  window.addEventListener("resize", scale);
+  window.addEventListener("resize", scaleElements);
 
   return () => {
-    window.removeEventListener("resize", scale);
+    window.removeEventListener("resize", scaleElements);
   };
 }

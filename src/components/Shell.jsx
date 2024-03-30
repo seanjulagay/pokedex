@@ -1,5 +1,7 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { scaleShell } from "../scripts/ScaleManager";
+import { ShellOpenedContext } from "./Dex";
+import { AppLoadedContext } from "./App";
 import dexShellClosed from "../../public/images/dex/dex-closed.png";
 import dexShellOpened from "../../public/images/dex/dex-opened.png";
 import dexPowerButton from "../../public/images/dex/dex-power-button.png";
@@ -15,33 +17,48 @@ import dexScrollDown from "../../public/images/dex/dex-scroll-down.png";
 import dexScrollUp from "../../public/images/dex/dex-scroll-up.png";
 
 export default function Shell() {
+  const [shellOpened, setShellOpened] = useContext(ShellOpenedContext);
+  const [appLoaded, setAppLoaded] = useContext(AppLoadedContext);
+
+  const handleShellState = () => {
+    shellOpened ? setShellOpened(false) : setShellOpened(true);
+  };
+
   useEffect(() => {
     setTimeout(() => {
       scaleShell();
-    }, 100);
+      setAppLoaded(true);
+    }, 1000);
   }, []);
 
   return (
     <div className="shell">
-      <div className="shell-container">
+      <div
+        className={`shell-container ${
+          shellOpened ? "shell-opened" : "shell-closed"
+        }`}
+      >
         <img
-          src={dexShellOpened}
+          src={shellOpened ? dexShellOpened : dexShellClosed}
           alt=""
-          className="shell-img shell-img-closed"
+          className="shell-img"
         />
         <div className="shell-components">
           <div
             style={{ backgroundImage: `url(${dexPowerButton})` }}
             className="shell-power-btn shell-interactable"
+            onClick={handleShellState}
           ></div>
           <div
             style={{ backgroundImage: `url(${dexDpadParent})` }}
-            className="shell-dpad-parent shell-interactable"
+            className={`shell-dpad-parent shell-interactable ${
+              shellOpened ? "" : "hidden"
+            }`}
           >
             <div className="shell-dpad-top-row">
               <div
                 style={{ backgroundImage: `url(${dexDpadUp})` }}
-                className="shell-dpad-up  dpad-btn"
+                className="shell-dpad-up dpad-btn"
               ></div>
             </div>
             <div className="shell-dpad-middle-row">
@@ -63,9 +80,15 @@ export default function Shell() {
           </div>
           <div
             style={{ backgroundImage: `url(${dexSearchBtn})` }}
-            className="shell-search-btn shell-interactable"
+            className={`shell-search-btn shell-interactable ${
+              shellOpened ? "" : "hidden"
+            }`}
           ></div>
-          <div className="shell-scroll-parents shell-interactable">
+          <div
+            className={`shell-scroll-parents shell-interactable ${
+              shellOpened ? "" : "hidden"
+            }`}
+          >
             <div
               style={{ backgroundImage: `url(${dexLeftScroll})` }}
               className="shell-scroll-parent"
@@ -85,8 +108,16 @@ export default function Shell() {
               ></div>
             </div>
           </div>
-          <div className="shell-screen shell-left-screen shell-interactable"></div>
-          <div className="shell-screen shell-right-screen shell-interactable"></div>
+          <div
+            className={`shell-screen shell-left-screen shell-interactable ${
+              shellOpened ? "" : "hidden"
+            }`}
+          ></div>
+          <div
+            className={`shell-screen shell-right-screen shell-interactable ${
+              shellOpened ? "" : "hidden"
+            }`}
+          ></div>
         </div>
       </div>
     </div>
