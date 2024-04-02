@@ -21,14 +21,14 @@ html {
   margin: 0;
   padding: 0;
   font-size: 62.5%;
-}
-
-body {
-  background-color: $background-color-gray;
   // properties to disable ios safari auto text scaling
   -webkit-text-size-adjust: none;
   // -moz-text-size-adjust: 100%;
   // text-size-adjust: 100%;
+}
+
+body {
+  background-color: $background-color-gray;
 }
 
 .outside-text {
