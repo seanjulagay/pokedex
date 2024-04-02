@@ -54,6 +54,15 @@ export function scaleShell() {
     directoryScreen.style.top = parseFloat(dexImgHeight) * 0.2857 + "px";
     directoryScreen.style.left = parseFloat(dexImgWidth) * 0.059 + "px";
 
+    // const directoryActiveIndex = document.querySelector(
+    //   ".directory-active-index"
+    // );
+
+    // directoryActiveIndex.style.borderRadius =
+    //   parseFloat(dexImgWidth) * 0.005 + "px";
+    // directoryActiveIndex.style.padding =
+    //   "0 " + parseFloat(dexImgWidth) * 0.005 + "px";
+
     const directoryLoading = document.querySelector(".directory-loading");
 
     directoryLoading.style.height = parseFloat(dexImgWidth) * 0.12 + "px";

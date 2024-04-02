@@ -7,10 +7,13 @@
       font-weight: 700;
     }
     .directory-content-container {
-      .directory-active-index {
-        background-color: $directory-active-gray;
-        border-radius: 0.5rem;
-        padding: 0 0.5rem;
+      .directory-content-block {
+        font-weight: 400;
+        &.directory-active-index {
+          background-color: $directory-active-gray;
+          // border-radius: 15% 0;
+          padding: 0 1%;
+        }
       }
     }
     .directory-loading {
