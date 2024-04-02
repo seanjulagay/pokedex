@@ -3,6 +3,8 @@ import Directory from "./Directory";
 import { scaleShell } from "../scripts/ScaleManager";
 import {
   CurrentIDContext,
+  DirectoryActiveIndexContext,
+  DirectoryOffsetContext,
   DirectoryPageContext,
   ShellOpenedContext,
 } from "./Dex";
@@ -26,6 +28,12 @@ export default function Shell() {
   const [shellOpened, setShellOpened] = useContext(ShellOpenedContext);
   const [appLoaded, setAppLoaded] = useContext(AppLoadedContext);
   const [directoryPage, setDirectoryPage] = useContext(DirectoryPageContext);
+  const [directoryActiveIndex, setDirectoryActiveIndex] = useContext(
+    DirectoryActiveIndexContext
+  );
+  const [directoryOffset, setDirectoryOffset] = useContext(
+    DirectoryOffsetContext
+  );
   const [currentID, setCurrentID] = useContext(CurrentIDContext);
   const [totalPokemon, setTotalPokemon] = useState(1000);
 
@@ -74,20 +82,33 @@ export default function Shell() {
     const totalPages = Math.ceil(totalPokemon / 8);
 
     if (direction == "up") {
-      if (currentID < totalPokemon) {
+      if (currentID < totalPokemon && currentID > 1) {
         setCurrentID((currentID) => currentID - 1);
+        setDirectoryActiveIndex(
+          (directoryActiveIndex) => directoryActiveIndex - 1
+        );
       }
     } else if (direction == "down") {
-      if (currentID > 0) {
-        setCurrentID((currentID) => currentID + 1);
+      if (currentID > 0 && currentID < totalPokemon) {
+        if (currentID < directoryPage * 8) {
+          setCurrentID((currentID) => currentID + 1);
+          setDirectoryActiveIndex(
+            (directoryActiveIndex) => directoryActiveIndex + 1
+          );
+        }
       }
     } else if (direction == "left") {
-      if (directoryPage > 0) {
+      if (directoryPage > 1) {
+        // console.log("directoryPage", directoryPage);
+        // setCurrentID((directoryPage - 1) * 8 - 1);
         setDirectoryPage((directoryPage) => directoryPage - 1);
+        setDirectoryActiveIndex(0);
       }
     } else if (direction == "right") {
       if (directoryPage <= totalPages) {
+        // setCurrentID(directoryPage * 8 + 1);
         setDirectoryPage((directoryPage) => directoryPage + 1);
+        setDirectoryActiveIndex(0);
       }
     }
   };

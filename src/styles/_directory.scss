@@ -1,0 +1,28 @@
+@use "variables" as *;
+
+.directory {
+  .directory-container {
+    padding: 2%;
+    .directory-header {
+      font-weight: 700;
+    }
+    .directory-content-container {
+      .directory-active-index {
+        background-color: $directory-active-gray;
+        border-radius: 0.5rem;
+        padding: 0 0.5rem;
+      }
+    }
+    .directory-loading {
+      position: absolute;
+      filter: grayscale(100%);
+      &.hidden {
+        visibility: hidden;
+        z-index: -1;
+      }
+      &:not(.hidden) {
+        visibility: visible;
+      }
+    }
+  }
+}

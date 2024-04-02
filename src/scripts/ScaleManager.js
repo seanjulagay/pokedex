@@ -54,6 +54,13 @@ export function scaleShell() {
     directoryScreen.style.top = parseFloat(dexImgHeight) * 0.2857 + "px";
     directoryScreen.style.left = parseFloat(dexImgWidth) * 0.059 + "px";
 
+    const directoryLoading = document.querySelector(".directory-loading");
+
+    directoryLoading.style.height = parseFloat(dexImgWidth) * 0.12 + "px";
+    directoryLoading.style.width = parseFloat(dexImgWidth) * 0.12 + "px";
+    directoryLoading.style.top = parseFloat(dexImgWidth) * 0.05 + "px";
+    directoryLoading.style.left = parseFloat(dexImgWidth) * 0.11 + "px";
+
     // Scale right (details) screen
     const detailsScreen = document.querySelector(".shell-right-screen");
 
@@ -94,11 +101,13 @@ export function scaleShell() {
 
   // Call and listener statements
   scaleElements();
-  // scaleText();
+  scaleText();
 
   window.addEventListener("resize", scaleElements);
+  window.addEventListener("resize", scaleText);
 
   return () => {
     window.removeEventListener("resize", scaleElements);
+    window.removeEventListener("resize", scaleText);
   };
 }

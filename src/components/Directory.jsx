@@ -1,9 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   CurrentIDContext,
+  DirectoryActiveIndexContext,
   DirectoryOffsetContext,
+  DirectoryPageContext,
+  LoadingStatesContext,
   ShellOpenedContext,
 } from "./Dex";
+import spinningPokeball from "../../public/images/spinning-pokeball.gif";
 import axios from "axios";
 
 export default function Directory() {
@@ -11,17 +15,21 @@ export default function Directory() {
   const [directoryOffset, setDirectoryOffset] = useContext(
     DirectoryOffsetContext
   );
+  const [directoryPage, setDirectoryPage] = useContext(DirectoryPageContext);
+  const [directoryActiveIndex, setDirectoryActiveIndex] = useContext(
+    DirectoryActiveIndexContext
+  );
   const [currentID, setCurrentID] = useContext(CurrentIDContext);
+  const [loadingStates, setLoadingStates] = useContext(LoadingStatesContext);
   const [currentPagePokemon, setCurrentPagePokemon] = useState(null);
-  const [selectedPokemonIndex, setSelectedPokemonIndex] = useState(0);
+
+  // useEffect(() => {
+  //   fetchDirectoryPokemon();
+  // }, []);
 
   useEffect(() => {
     fetchDirectoryPokemon();
-  }, []);
-
-  useEffect(() => {
-    
-  }, [currentID]);
+  }, [directoryOffset]);
 
   const formatDirectoryItem = (id, name) => {
     var nameCaps = name[0].toUpperCase() + name.slice(1);
@@ -38,34 +46,66 @@ export default function Directory() {
     }
   };
 
+  // const translateID = () => {
+  //   let dirActiveIndex = 0;
+
+  //   console.log("directoryPage", (directoryPage - 1) * 8);
+
+  //   if (currentID > 9) {
+  //     dirActiveIndex = currentID - directoryPage * 8;
+  //   } else {
+  //     dirActiveIndex = currentID;
+  //   }
+  //   dirActiveIndex--; // account for zero-based indexing for directory UI
+  //   console.log("directory active index", dirActiveIndex);
+  //   setActiveIndex(dirActiveIndex);
+  // };
+
   const directoryContent = () => {
     if (currentPagePokemon) {
       return currentPagePokemon.map((pokemon, index) => (
         <div
           key={index}
           className={`directory-content-block ${
-            selectedPokemonIndex === index ? "directory-active-index" : ""
+            directoryActiveIndex === index ? "directory-active-index" : ""
           }`}
         >
-          {formatDirectoryItem(pokemon.id, pokemon.name)}
+          {formatDirectoryItem(pokemon.url.split("/")[6], pokemon.name)}
         </div>
       ));
     }
   };
 
   const fetchDirectoryPokemon = async () => {
+    setLoadingStates([true, loadingStates[1]]);
     const res = await axios.get(
       `https://pokeapi.co/api/v2/pokemon?offset=${directoryOffset}&limit=8`
     );
 
+    console.log(res.data.results);
     setCurrentPagePokemon(res.data.results);
+    setLoadingStates([false, loadingStates[1]]);
   };
 
   return (
     <div className={`directory ${shellOpened ? "" : "hidden"}`}>
       <div className="directory-container">
         <div className="directory-header">Select Pokemon</div>
-        <div className="directory-content-container">{directoryContent()}</div>
+        <div
+          className={`directory-content-container ${
+            loadingStates[0] == true ? "hidden" : ""
+          }`}
+        >
+          {directoryContent()}
+        </div>
+        <img
+          src={spinningPokeball}
+          alt=""
+          className={`directory-loading ${
+            loadingStates[0] == false ? "hidden" : ""
+          }`}
+          // className={`directory-loading`}
+        />
       </div>
     </div>
   );
