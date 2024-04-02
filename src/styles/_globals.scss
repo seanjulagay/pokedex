@@ -26,9 +26,9 @@ html {
 body {
   background-color: $background-color-gray;
   // properties to disable ios safari auto text scaling
-  -webkit-text-size-adjust: 100%;
-  -moz-text-size-adjust: 100%;
-  text-size-adjust: 100%;
+  -webkit-text-size-adjust: none;
+  // -moz-text-size-adjust: 100%;
+  // text-size-adjust: 100%;
 }
 
 .outside-text {
