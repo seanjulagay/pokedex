@@ -95,6 +95,7 @@ export function scaleShell() {
     directoryHeader.style.fontSize = parseFloat(dexImgWidth) * 0.02 + "px";
     directoryContentBlock.forEach((element) => {
       element.style.fontSize = parseFloat(dexImgWidth) * 0.016 + "px";
+      // element.style.lineHeight = parseFloat(dexImgWidth) * 0.02 + "px";
     });
 
     detailsHeader.forEach((element) => {
