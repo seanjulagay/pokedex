@@ -1,11 +1,19 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useRef,
+  createContext,
+} from "react";
 import Directory from "./Directory";
+import Details from "./Details";
 import { scaleShell } from "../scripts/ScaleManager";
 import {
   CurrentIDContext,
   DirectoryActiveIndexContext,
   DirectoryOffsetContext,
   DirectoryPageContext,
+  LoadingStatesContext,
   ShellOpenedContext,
 } from "./Dex";
 import { AppLoadedContext } from "./App";
@@ -24,6 +32,8 @@ import dexScrollDown from "../../public/images/dex/dex-scroll-down.png";
 import dexScrollUp from "../../public/images/dex/dex-scroll-up.png";
 import axios from "axios";
 
+export const PokemonCountContext = createContext(null);
+
 export default function Shell() {
   const [shellOpened, setShellOpened] = useContext(ShellOpenedContext);
   const [appLoaded, setAppLoaded] = useContext(AppLoadedContext);
@@ -35,7 +45,10 @@ export default function Shell() {
     DirectoryOffsetContext
   );
   const [currentID, setCurrentID] = useContext(CurrentIDContext);
+  const [loadingStates, setLoadingStates] = useContext(LoadingStatesContext);
   const [totalPokemon, setTotalPokemon] = useState(1000);
+
+  const detailsRef = useRef(null);
 
   const imagesToPreload = [
     dexShellClosed,
@@ -81,35 +94,52 @@ export default function Shell() {
   const handleDpadInteraction = (direction) => {
     const totalPages = Math.ceil(totalPokemon / 8);
 
-    if (direction == "up") {
-      if (currentID < totalPokemon && currentID > 1) {
-        setCurrentID((currentID) => currentID - 1);
-        setDirectoryActiveIndex(
-          (directoryActiveIndex) => directoryActiveIndex - 1
-        );
-      }
-    } else if (direction == "down") {
-      if (currentID > 0 && currentID < totalPokemon) {
-        if (currentID < directoryPage * 8) {
-          setCurrentID((currentID) => currentID + 1);
+    if (loadingStates[0] == false && loadingStates[1] == false) {
+      if (direction == "up") {
+        if (currentID < totalPokemon && currentID > directoryOffset + 1) {
+          setCurrentID((currentID) => currentID - 1);
           setDirectoryActiveIndex(
-            (directoryActiveIndex) => directoryActiveIndex + 1
+            (directoryActiveIndex) => directoryActiveIndex - 1
           );
+          resetScroll();
+        }
+      } else if (direction == "down") {
+        if (currentID > 0 && currentID < totalPokemon) {
+          if (currentID < directoryPage * 8) {
+            setCurrentID((currentID) => currentID + 1);
+            setDirectoryActiveIndex(
+              (directoryActiveIndex) => directoryActiveIndex + 1
+            );
+          }
+          resetScroll();
+        }
+      } else if (direction == "left") {
+        if (directoryPage > 1) {
+          setDirectoryPage((directoryPage) => directoryPage - 1);
+          setDirectoryActiveIndex(0);
+        }
+      } else if (direction == "right") {
+        if (directoryPage <= totalPages) {
+          setDirectoryPage((directoryPage) => directoryPage + 1);
+          setDirectoryActiveIndex(0);
         }
       }
-    } else if (direction == "left") {
-      if (directoryPage > 1) {
-        // console.log("directoryPage", directoryPage);
-        // setCurrentID((directoryPage - 1) * 8 - 1);
-        setDirectoryPage((directoryPage) => directoryPage - 1);
-        setDirectoryActiveIndex(0);
+    }
+  };
+
+  const handleScrollButtonsInteraction = (direction) => {
+    if (detailsRef.current) {
+      if (direction == "up") {
+        detailsRef.current.scrollTop -= 100;
+      } else if (direction == "down") {
+        detailsRef.current.scrollTop += 100;
       }
-    } else if (direction == "right") {
-      if (directoryPage <= totalPages) {
-        // setCurrentID(directoryPage * 8 + 1);
-        setDirectoryPage((directoryPage) => directoryPage + 1);
-        setDirectoryActiveIndex(0);
-      }
+    }
+  };
+
+  const resetScroll = () => {
+    if (detailsRef.current) {
+      detailsRef.current.scrollTop = 0;
     }
   };
 
@@ -180,6 +210,7 @@ export default function Shell() {
               className="shell-scroll-parent"
             >
               <div
+                onClick={() => handleScrollButtonsInteraction("up")}
                 style={{ backgroundImage: `url(${dexScrollUp})` }}
                 className="shell-scroll-arrow shell-scroll-up"
               ></div>
@@ -189,6 +220,7 @@ export default function Shell() {
               className="shell-scroll-parent"
             >
               <div
+                onClick={() => handleScrollButtonsInteraction("down")}
                 style={{ backgroundImage: `url(${dexScrollDown})` }}
                 className="shell-scroll-arrow shell-scroll-down"
               ></div>
@@ -205,7 +237,13 @@ export default function Shell() {
             className={`shell-screen shell-right-screen shell-interactable ${
               shellOpened ? "" : "hidden"
             }`}
-          ></div>
+          >
+            <PokemonCountContext.Provider
+              value={[totalPokemon, setTotalPokemon]}
+            >
+              <Details innerRef={detailsRef} />
+            </PokemonCountContext.Provider>
+          </div>
         </div>
       </div>
     </div>

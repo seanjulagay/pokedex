@@ -54,21 +54,14 @@ export function scaleShell() {
     directoryScreen.style.top = parseFloat(dexImgHeight) * 0.2857 + "px";
     directoryScreen.style.left = parseFloat(dexImgWidth) * 0.059 + "px";
 
-    // const directoryActiveIndex = document.querySelector(
-    //   ".directory-active-index"
-    // );
+    const directoryLoadingImage = document.querySelector(
+      ".directory-loading-image"
+    );
 
-    // directoryActiveIndex.style.borderRadius =
-    //   parseFloat(dexImgWidth) * 0.005 + "px";
-    // directoryActiveIndex.style.padding =
-    //   "0 " + parseFloat(dexImgWidth) * 0.005 + "px";
-
-    const directoryLoading = document.querySelector(".directory-loading");
-
-    directoryLoading.style.height = parseFloat(dexImgWidth) * 0.12 + "px";
-    directoryLoading.style.width = parseFloat(dexImgWidth) * 0.12 + "px";
-    directoryLoading.style.top = parseFloat(dexImgWidth) * 0.05 + "px";
-    directoryLoading.style.left = parseFloat(dexImgWidth) * 0.11 + "px";
+    directoryLoadingImage.style.height = parseFloat(dexImgWidth) * 0.12 + "px";
+    directoryLoadingImage.style.width = parseFloat(dexImgWidth) * 0.12 + "px";
+    // directoryLoading.style.top = parseFloat(dexImgWidth) * 0.05 + "px";
+    // directoryLoading.style.left = parseFloat(dexImgWidth) * 0.11 + "px";
 
     // Scale right (details) screen
     const detailsScreen = document.querySelector(".shell-right-screen");
@@ -77,6 +70,19 @@ export function scaleShell() {
     detailsScreen.style.width = parseFloat(dexImgWidth) * 0.3675 + "px";
     detailsScreen.style.top = parseFloat(dexImgHeight) * 0.25 + "px";
     detailsScreen.style.left = parseFloat(dexImgWidth) * 0.585 + "px";
+
+    const detailsLoadingImage = document.querySelector(
+      ".details-loading-image"
+    );
+
+    detailsLoadingImage.style.height = parseFloat(dexImgWidth) * 0.12 + "px";
+    detailsLoadingImage.style.width = parseFloat(dexImgWidth) * 0.12 + "px";
+    // detailsLoadingImage.style.top = parseFloat(dexImgWidth) * 0.14 + "px";
+    // detailsLoadingImage.style.left = parseFloat(dexImgWidth) * 0.115 + "px";
+
+    const detailsContainer = document.querySelector(".details-container");
+
+    detailsContainer.style.gap = parseFloat(dexImgWidth) * 0.0025 + "px";
   };
 
   const scaleText = () => {
@@ -89,8 +95,9 @@ export function scaleShell() {
       ".directory-content-block"
     );
     const detailsHeader = document.querySelectorAll(".details-header");
-    const detailsSubheader2 = document.querySelectorAll(".details-subheader2");
+    const detailsSubheader = document.querySelectorAll(".details-subheader");
     const detailsContent = document.querySelectorAll(".details-content");
+    const detailsSplitter = document.querySelectorAll(".details-splitter");
 
     directoryHeader.style.fontSize = parseFloat(dexImgWidth) * 0.02 + "px";
     directoryContentBlock.forEach((element) => {
@@ -101,11 +108,14 @@ export function scaleShell() {
     detailsHeader.forEach((element) => {
       element.style.fontSize = parseFloat(dexImgWidth) * 0.02 + "px";
     });
-    detailsSubheader2.forEach((element) => {
+    detailsSubheader.forEach((element) => {
       element.style.fontSize = parseFloat(dexImgWidth) * 0.018 + "px";
     });
     detailsContent.forEach((element) => {
       element.style.fontSize = parseFloat(dexImgWidth) * 0.016 + "px";
+    });
+    detailsSplitter.forEach((element) => {
+      element.style.fontSize = parseFloat(dexImgWidth) * 0.02 + "px";
     });
   };
 

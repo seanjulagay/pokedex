@@ -8,7 +8,7 @@
     }
     .directory-content-container {
       .directory-content-block {
-        line-height: 120%;
+        line-height: 125%;
         font-weight: 400;
         &.directory-active-index {
           background-color: $directory-active-gray;
@@ -19,13 +19,28 @@
     }
     .directory-loading {
       position: absolute;
-      filter: grayscale(100%);
+      top: 0; // resets position for some reason, do not remove
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
       &.hidden {
         visibility: hidden;
         z-index: -1;
       }
       &:not(.hidden) {
         visibility: visible;
+      }
+      .directory-loading-image {
+        margin-top: -7%;
+        filter: grayscale(100%);
+      }
+      .directory-loading-text {
+        font-weight: 700;
+        margin-top: -7%;
+        font-size: 1.5vw;
       }
     }
   }

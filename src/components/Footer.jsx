@@ -9,15 +9,27 @@ export default function Footer() {
             Sean Julag-ay (c) 2024
           </span>
           <span className="footer-links outside-text">
-            <a href="" className="footer-link">
+            <a
+              href="https://seanjulagay.github.io/portfolio/"
+              className="footer-link"
+              target="_blank"
+            >
               Portfolio
             </a>
             {" | "}
-            <a href="" className="footer-link">
+            <a
+              href="https://github.com/seanjulagay"
+              className="footer-link"
+              target="_blank"
+            >
               Github
             </a>
             {" | "}
-            <a href="" className="footer-link">
+            <a
+              href="https://www.linkedin.com/in/seanjulagay"
+              className="footer-link"
+              target="_blank"
+            >
               LinkedIn
             </a>
           </span>

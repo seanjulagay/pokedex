@@ -1,0 +1,75 @@
+@use "variables" as *;
+
+// DirectoryOffsetContext, CurrentIDContext, LoadingStatesContext
+
+.details {
+  height: 100%;
+  width: 100%;
+  color: $details-content-green;
+  overflow-y: scroll;
+  padding: 2%;
+  pointer-events: none;
+  .details-loading {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    &.hidden {
+      visibility: hidden;
+      z-index: -1;
+      &:not(.hidden) {
+        visibility: visible;
+      }
+    }
+    .details-loading-image {
+      margin-top: -12%;
+      filter: grayscale(100%) sepia(100%) hue-rotate(80deg) brightness(0.8)
+        saturate(2);
+    }
+    .details-loading-text {
+      font-weight: 700;
+      margin-top: -7%;
+      font-size: 1.5vw;
+    }
+  }
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $details-content-green;
+  }
+  &::-webkit-scrollbar-track {
+    background: $details-background-green;
+  }
+  .details-container {
+    display: flex;
+    flex-direction: column;
+    .details-sprite-container {
+      display: flex;
+      justify-content: center;
+      .details-sprite {
+        height: 50%;
+        width: 50%;
+        filter: grayscale(100%) sepia(100%) hue-rotate(80deg) brightness(0.8)
+          saturate(2);
+        clip: rect(0, 100px, 100px, 0);
+        image-rendering: pixelated;
+      }
+    }
+    .details-header {
+      font-weight: 700;
+    }
+    .details-subheader {
+      &.details-split-subheader {
+        display: flex;
+        justify-content: space-between;
+        * {
+          flex: 1;
+        }
+      }
+    }
+  }
+}

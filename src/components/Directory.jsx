@@ -23,10 +23,6 @@ export default function Directory() {
   const [loadingStates, setLoadingStates] = useContext(LoadingStatesContext);
   const [currentPagePokemon, setCurrentPagePokemon] = useState(null);
 
-  // useEffect(() => {
-  //   fetchDirectoryPokemon();
-  // }, []);
-
   useEffect(() => {
     fetchDirectoryPokemon();
   }, [directoryOffset]);
@@ -45,21 +41,6 @@ export default function Directory() {
       return "formatError";
     }
   };
-
-  // const translateID = () => {
-  //   let dirActiveIndex = 0;
-
-  //   console.log("directoryPage", (directoryPage - 1) * 8);
-
-  //   if (currentID > 9) {
-  //     dirActiveIndex = currentID - directoryPage * 8;
-  //   } else {
-  //     dirActiveIndex = currentID;
-  //   }
-  //   dirActiveIndex--; // account for zero-based indexing for directory UI
-  //   console.log("directory active index", dirActiveIndex);
-  //   setActiveIndex(dirActiveIndex);
-  // };
 
   const directoryContent = () => {
     if (currentPagePokemon) {
@@ -98,14 +79,18 @@ export default function Directory() {
         >
           {directoryContent()}
         </div>
-        <img
-          src={spinningPokeball}
-          alt=""
+        <div
           className={`directory-loading ${
             loadingStates[0] == false ? "hidden" : ""
           }`}
-          // className={`directory-loading`}
-        />
+        >
+          <img
+            src={spinningPokeball}
+            alt=""
+            className="directory-loading-image"
+          />
+          <span className="directory-loading-text">Loading...</span>
+        </div>
       </div>
     </div>
   );
