@@ -25,10 +25,6 @@ export default function Search() {
   }, []);
 
   useEffect(() => {
-    console.log(allPokemon);
-  }, [allPokemon]);
-
-  useEffect(() => {
     setSearchText("");
     searchOpened
       ? (document.body.style.overflow = "hidden")
@@ -60,7 +56,7 @@ export default function Search() {
         const key = Object.keys(allPokemon).find(
           (key) => allPokemon[key] === formattedSearchText
         );
-        setCurrentID(key);
+        setCurrentID(parseInt(key));
         setErrorMsg("");
         setSearchOpened(false);
       } else {
