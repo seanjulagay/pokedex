@@ -29,6 +29,7 @@ export default function Search() {
   }, [allPokemon]);
 
   useEffect(() => {
+    setSearchText("");
     searchOpened
       ? (document.body.style.overflow = "hidden")
       : (document.body.style.overflow = "unset");
@@ -62,7 +63,6 @@ export default function Search() {
         setCurrentID(key);
         setErrorMsg("");
         setSearchOpened(false);
-        setSearchText("");
       } else {
         setErrorMsg("Error! Pokemon not found.");
       }
@@ -71,7 +71,6 @@ export default function Search() {
         setCurrentID(parsedText);
         setErrorMsg("");
         setSearchOpened(false);
-        setSearchText("");
       } else {
         setErrorMsg(
           `Error! Please enter a value between 1 and ${totalPokemon}.`
