@@ -61,7 +61,12 @@
           background-color: white;
           border: none;
           border-radius: 0.3vw;
-          font-size: 1.2vw;
+          font-size: 1vw;
+          @media not all and (hover: none) {
+            &:hover {
+              cursor: pointer;
+            }
+          }
         }
       }
       .search-modal-message {

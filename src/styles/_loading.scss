@@ -18,8 +18,8 @@
     transition: 0.5s all ease-in-out;
   }
   .loading-img {
-    height: 15rem;
-    width: 15rem;
+    max-height: 10rem;
+    max-width: 10rem;
     margin-top: -5rem;
   }
   .loading-text {

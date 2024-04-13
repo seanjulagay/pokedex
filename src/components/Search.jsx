@@ -11,24 +11,14 @@ export default function Search() {
   const [searchOpened, setSearchOpened] = useContext(SearchModalContext);
   const [currentID, setCurrentID] = useContext(CurrentIDContext);
   const [totalPokemon, setTotalPokemon] = useContext(TotalPokemonContext);
-  const [directoryOffset, setDirectoryOffset] = useContext(
-    DirectoryOffsetContext
-  );
-  const [directoryActiveIndex, setDirectoryActiveIndex] = useContext(
-    DirectoryActiveIndexContext
-  );
   const [searchText, setSearchText] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
 
-  // useEffect(() => {
-  //   // runs after valid ID search, manual setting of directory offset since other instances of setting is dependent on button interaction
-  //   const page = Math.floor(currentID / 8);
-  //   const dirOffset = page * 8;
-  //   setDirectoryOffset(dirOffset);
-
-  //   const activeInd = currentID - dirOffset - 1; // -1 since activeIndex is zero-based
-  //   setDirectoryActiveIndex(activeInd);
-  // }, [currentID]);
+  useEffect(() => {
+    searchOpened
+      ? (document.body.style.overflow = "hidden")
+      : (document.body.style.overflow = "unset");
+  }, [searchOpened]);
 
   const handleSearchButton = (event) => {
     event.preventDefault();

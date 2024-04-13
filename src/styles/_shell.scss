@@ -41,9 +41,11 @@
           background-color: rgba(0, 0, 0, 0);
           transition: background-color 0.2s ease-in-out;
         }
-        &:hover::before {
-          background-color: rgba(0, 0, 0, 0.5);
-          cursor: pointer;
+        @media not all and (hover: none) {
+          &:hover::before {
+            background-color: rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+          }
         }
       }
       .shell-dpad-parent {
@@ -55,10 +57,12 @@
           width: 33%;
           opacity: 0;
           transition: 0.5s opacity ease;
-          &:hover {
-            opacity: 1;
-            cursor: pointer;
-            transition: 0.5s opacity ease;
+          @media not all and (hover: none) {
+            &:hover {
+              opacity: 1;
+              cursor: pointer;
+              transition: 0.5s opacity ease;
+            }
           }
         }
         .shell-dpad-top-row {
@@ -91,9 +95,11 @@
           background-color: rgba(0, 0, 0, 0);
           transition: background-color 0.2s ease-in-out;
         }
-        &:hover::before {
-          background-color: rgba(0, 0, 0, 0.5);
-          cursor: pointer;
+        @media not all and (hover: none) {
+          &:hover::before {
+            background-color: rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+          }
         }
       }
       .shell-scroll-parents {
@@ -107,8 +113,10 @@
           height: 100%;
           width: 100%;
           background-size: cover;
-          &:hover {
-            cursor: pointer;
+          @media not all and (hover: none) {
+            &:hover {
+              cursor: pointer;
+            }
           }
           .shell-scroll-arrow {
             height: 100%;
@@ -116,11 +124,14 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            opacity: 0;
+            opacity: 1;
             transition: opacity 0.2s ease-in-out;
-            &:hover {
-              transition: opacity 0.2s ease-in-out;
-              opacity: 1;
+            @media not all and (hover: none) {
+              opacity: 0;
+              &:hover {
+                transition: opacity 0.2s ease-in-out;
+                opacity: 1;
+              }
             }
           }
         }

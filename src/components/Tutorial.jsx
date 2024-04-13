@@ -4,16 +4,11 @@ import { createClient } from "contentful";
 
 export default function Tutorial() {
   const [tutorialOpened, setTutorialOpened] = useContext(TutorialModalContext);
-  const [tutorialText, setTutorialText] = useState(
-    "The quick brown fox jumped over the lazy dog."
-  );
-  const [tutorialImage, setTutorialImage] = useState(null);
   const [tutorialPage, setTutorialPage] = useState(0);
   const [contentfulEntries, setContentfulEntries] = useState(null);
   const [contentfulHeaders, setContentfulHeaders] = useState(null);
   const [contentfulDescs, setContentfulDescs] = useState(null);
   const [contentfulImages, setContentfulImages] = useState(null);
-  const [openedBefore, setOpenedBefore] = useState(false);
 
   // for vite projects, use import.meta.env.VITE_KEY
   const client = createClient({
@@ -68,6 +63,12 @@ export default function Tutorial() {
       setContentfulImages(tempImages);
     }
   }, [contentfulEntries]);
+
+  useEffect(() => {
+    tutorialOpened
+      ? (document.body.style.overflow = "hidden")
+      : (document.body.style.overflow = "unset");
+  }, [tutorialOpened]);
 
   const tutorialPageHandler = (direction) => {
     if (direction == "left") {
