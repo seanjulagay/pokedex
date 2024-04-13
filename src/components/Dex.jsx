@@ -2,6 +2,10 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import Shell from "./Shell";
 import Search from "./Search";
 import { AppLoadedContext } from "./App";
+import pokedexOpenSound from "../../public/sounds/pokedex-open-sound.mp3";
+import pokedexCloseSound from "../../public/sounds/pokedex-close-sound.mp3";
+import directorySelectSound from "../../public/sounds/directory-select-sound.mp3";
+import detailsScrollSound from "../../public/sounds/details-scroll-sound.mp3";
 
 export const ShellOpenedContext = createContext(null);
 export const DirectoryPageContext = createContext(null);
@@ -27,12 +31,10 @@ export default function Dex() {
   const [detailsLoadingState, setDetailsLoadingState] = useState(false);
   const [resetDetailsScroll, setResetDetailsScroll] = useState(false);
 
-  let pokedexOpenAudio = new Audio("/public/sounds/pokedex-open-sound.mp3");
-  let pokedexCloseAudio = new Audio("/public/sounds/pokedex-close-sound.mp3");
-  let directorySelectAudio = new Audio(
-    "/public/sounds/directory-select-sound.mp3"
-  );
-  let detailsScrollAudio = new Audio("/public/sounds/details-scroll-sound.mp3");
+  let pokedexOpenAudio = new Audio(pokedexOpenSound);
+  let pokedexCloseAudio = new Audio(pokedexCloseSound);
+  let directorySelectAudio = new Audio(directorySelectSound);
+  let detailsScrollAudio = new Audio(detailsScrollSound);
 
   useEffect(() => {
     setLoadingStates([directoryLoadingState, detailsLoadingState]);
