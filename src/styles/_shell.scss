@@ -106,6 +106,7 @@
         position: absolute;
         display: flex;
         flex-direction: row;
+        gap: 0.1rem;
         .shell-scroll-parent {
           display: flex;
           justify-content: center;
@@ -119,8 +120,8 @@
             }
           }
           .shell-scroll-arrow {
-            height: 100%;
-            width: 50%;
+            height: 80%;
+            width: 40%;
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;

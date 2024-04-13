@@ -17,8 +17,8 @@
     justify-content: center;
     align-items: center;
     .search-modal {
-      height: 20vw;
-      width: 35vw;
+      height: 15vw;
+      width: 25vw;
       background-color: $background-color-gray;
       display: flex;
       flex-direction: column;
@@ -41,7 +41,7 @@
         }
       }
       .search-modal-instructions {
-        font-size: 1.8vw;
+        font-size: 1.2vw;
         color: white;
       }
       .search-modal-form {
@@ -50,7 +50,7 @@
         align-items: center;
         gap: 2vh;
         .search-modal-bar {
-          font-size: 1.6vw;
+          font-size: 1.2vw;
           width: 70%;
           height: 2vw;
           text-align: center;
@@ -61,7 +61,7 @@
           background-color: white;
           border: none;
           border-radius: 0.3vw;
-          font-size: 150%;
+          font-size: 0.8vw;
           @media not all and (hover: none) {
             &:hover {
               cursor: pointer;
