@@ -36,7 +36,7 @@ import axios from "axios";
 
 export const PokemonCountContext = createContext(null);
 
-export default function Shell() {
+export default function Shell({ detailsScrollAudio }) {
   const [shellOpened, setShellOpened] = useContext(ShellOpenedContext);
   const [appLoaded, setAppLoaded] = useContext(AppLoadedContext);
   const [directoryPage, setDirectoryPage] = useContext(DirectoryPageContext);
@@ -118,6 +118,12 @@ export default function Shell() {
     setResetDetailsScroll(false);
   }, [resetDetailsScroll]);
 
+  useEffect(() => {
+    shellOpened
+      ? (document.documentElement.style.overflowX = "")
+      : (document.documentElement.style.overflowX = "hidden");
+  }, [shellOpened]);
+
   const fetchTotalPokemonCount = async () => {
     const response = await axios.get(
       `https://pokeapi.co/api/v2/pokemon-species`
@@ -139,38 +145,22 @@ export default function Shell() {
       if (direction == "up") {
         if (currentID > 1) {
           setCurrentID(currentID - 1);
-          // setCurrentID((currentID) => currentID - 1);
-          // setDirectoryActiveIndex(
-          //   (directoryActiveIndex) => directoryActiveIndex - 1
-          // );
           resetScroll();
         }
       } else if (direction == "down") {
-        // if (currentID > 0 && currentID < totalPokemon) {
-        //   if (currentID <= totalPokemon) {
-        //     setCurrentID(currentID + 1);
-        //     // setCurrentID((currentID) => currentID + 1);
-        //     // setDirectoryActiveIndex(
-        //     //   (directoryActiveIndex) => directoryActiveIndex + 1
-        //     // );
-        //   }
-        //   resetScroll();
-        // }
         if (currentID < totalPokemon) {
           setCurrentID(currentID + 1);
+          resetScroll();
         }
-        resetScroll();
       } else if (direction == "left") {
         if (directoryPage > 1) {
           setCurrentID(currentID - 8);
-          // setDirectoryPage((directoryPage) => directoryPage - 1);
-          // setDirectoryActiveIndex(0);
+          resetScroll();
         }
       } else if (direction == "right") {
         if (directoryPage <= totalPages) {
           setCurrentID(currentID + 8);
-          // setDirectoryPage((directoryPage) => directoryPage + 1);
-          // setDirectoryActiveIndex(0);
+          resetScroll();
         }
       }
     }
@@ -178,6 +168,10 @@ export default function Shell() {
 
   const handleScrollButtonsInteraction = (direction) => {
     if (detailsRef.current) {
+      detailsScrollAudio.pause();
+      detailsScrollAudio.currentTime = 0;
+      detailsScrollAudio.load();
+      detailsScrollAudio.play();
       if (direction == "up") {
         detailsRef.current.scrollTop -= 100;
       } else if (direction == "down") {

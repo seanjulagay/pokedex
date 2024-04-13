@@ -1,6 +1,7 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import Shell from "./Shell";
 import Search from "./Search";
+import { AppLoadedContext } from "./App";
 
 export const ShellOpenedContext = createContext(null);
 export const DirectoryPageContext = createContext(null);
@@ -14,6 +15,7 @@ export const DetailsLoadingStateContext = createContext(null);
 export const ResetDetailsScrollContext = createContext(null);
 
 export default function Dex() {
+  const [appLoaded, setAppLoaded] = useContext(AppLoadedContext);
   const [shellOpened, setShellOpened] = useState(false);
   const [directoryPage, setDirectoryPage] = useState(1);
   const [directoryOffset, setDirectoryOffset] = useState(0);
@@ -25,9 +27,32 @@ export default function Dex() {
   const [detailsLoadingState, setDetailsLoadingState] = useState(false);
   const [resetDetailsScroll, setResetDetailsScroll] = useState(false);
 
+  let pokedexOpenAudio = new Audio("/public/sounds/pokedex-open-sound.mp3");
+  let pokedexCloseAudio = new Audio("/public/sounds/pokedex-close-sound.mp3");
+  let directorySelectAudio = new Audio(
+    "/public/sounds/directory-select-sound.mp3"
+  );
+  let detailsScrollAudio = new Audio("/public/sounds/details-scroll-sound.mp3");
+
   useEffect(() => {
     setLoadingStates([directoryLoadingState, detailsLoadingState]);
   }, [directoryLoadingState, detailsLoadingState]);
+
+  useEffect(() => {
+    if (shellOpened == true) {
+      directorySelectAudio.play();
+    }
+  }, [currentID]);
+
+  useEffect(() => {
+    if (appLoaded) {
+      if (shellOpened == false) {
+        pokedexOpenAudio.play();
+      } else {
+        pokedexCloseAudio.play();
+      }
+    }
+  }, [shellOpened]);
 
   return (
     <div className="dex">
@@ -59,7 +84,7 @@ export default function Dex() {
                             value={[resetDetailsScroll, setResetDetailsScroll]}
                           >
                             <Search />
-                            <Shell />
+                            <Shell detailsScrollAudio={detailsScrollAudio} />
                           </ResetDetailsScrollContext.Provider>
                         </TotalPokemonContext.Provider>
                       </DetailsLoadingStateContext.Provider>

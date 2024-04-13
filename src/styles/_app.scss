@@ -16,7 +16,7 @@
       align-items: center;
       justify-content: center;
       flex-direction: column;
-      @media only screen and (orientation: portrait) {
+      @media only screen and (max-width: 540px) {
         display: none;
       }
     }

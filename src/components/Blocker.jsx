@@ -5,14 +5,15 @@ export default function Blocker() {
     <div className="blocker">
       <div className="blocker-container">
         <h1 className="blocker-text">
-          Hi! This app was developed with landscape orientation in mind for
-          immersion.
+          Hi! Your device is too slim to properly view this app in portrait
+          mode.
           <br />
           <br />
-          If you're on mobile, please turn your device on its side. <br />
+          Please rotate your device to a landscape orientation.
           <br />
+          {/* <br />
           If you're on PC, please resize your window to have a longer width than
-          height.
+          height. */}
         </h1>
       </div>
     </div>
