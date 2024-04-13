@@ -7,6 +7,7 @@ import {
   ResetDetailsScrollContext,
   TotalPokemonContext,
 } from "./Dex";
+import axios, { all } from "axios";
 
 export default function Search() {
   const [searchOpened, setSearchOpened] = useContext(SearchModalContext);
@@ -17,6 +18,15 @@ export default function Search() {
   );
   const [searchText, setSearchText] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
+  const [allPokemon, setAllPokemon] = useState(null);
+
+  useEffect(() => {
+    fetchAllPokemon();
+  }, []);
+
+  useEffect(() => {
+    console.log(allPokemon);
+  }, [allPokemon]);
 
   useEffect(() => {
     searchOpened
@@ -24,20 +34,47 @@ export default function Search() {
       : (document.body.style.overflow = "unset");
   }, [searchOpened]);
 
+  const fetchAllPokemon = async () => {
+    const pokemonRes = await axios.get(
+      "https://pokeapi.co/api/v2/pokemon?limit=100000&offset=0"
+    );
+
+    const temp = {};
+
+    for (let i = 0; i < pokemonRes.data.count; i++) {
+      temp[i + 1] = pokemonRes.data.results[i].name;
+    }
+    setAllPokemon(temp);
+  };
+
   const handleSearchButton = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // prevent page refresh
+
+    const formattedSearchText = searchText.toLowerCase();
+
     const parsedText = parseInt(searchText);
 
     if (Number.isNaN(parsedText)) {
-      setErrorMsg("Oops! Please enter a valid number.");
+      if (Object.values(allPokemon).includes(formattedSearchText)) {
+        const key = Object.keys(allPokemon).find(
+          (key) => allPokemon[key] === formattedSearchText
+        );
+        setCurrentID(key);
+        setErrorMsg("");
+        setSearchOpened(false);
+        setSearchText("");
+      } else {
+        setErrorMsg("Error! Pokemon not found.");
+      }
     } else if (Number.isInteger(parsedText)) {
       if (parsedText > 0 && parsedText <= totalPokemon) {
         setCurrentID(parsedText);
         setErrorMsg("");
         setSearchOpened(false);
+        setSearchText("");
       } else {
         setErrorMsg(
-          `Oops! Please enter a value between 1 and ${totalPokemon}.`
+          `Error! Please enter a value between 1 and ${totalPokemon}.`
         );
       }
     }
@@ -59,7 +96,7 @@ export default function Search() {
             x
           </button>
           <span className="search-modal-instructions">
-            Enter specific Pokemon ID
+            Enter Pokemon name or ID:
           </span>
           <form
             action=""
@@ -70,7 +107,7 @@ export default function Search() {
               type="text"
               value={searchText}
               onChange={handleSearchBarChange}
-              placeholder="ID..."
+              placeholder="Name/ID..."
               className="search-modal-bar"
             />
             <button type="submit" className="search-modal-submit-button">
