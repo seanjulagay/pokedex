@@ -1,12 +1,16 @@
 import React, { createContext, useEffect, useState } from "react";
 import Shell from "./Shell";
+import Search from "./Search";
 
 export const ShellOpenedContext = createContext(null);
 export const DirectoryPageContext = createContext(null);
 export const DirectoryOffsetContext = createContext(null);
 export const DirectoryActiveIndexContext = createContext(null);
 export const CurrentIDContext = createContext(null);
+export const TotalPokemonContext = createContext(null);
 export const LoadingStatesContext = createContext(null);
+export const DirectoryLoadingStateContext = createContext(null);
+export const DetailsLoadingStateContext = createContext(null);
 
 export default function Dex() {
   const [shellOpened, setShellOpened] = useState(false);
@@ -14,21 +18,24 @@ export default function Dex() {
   const [directoryOffset, setDirectoryOffset] = useState(0);
   const [directoryActiveIndex, setDirectoryActiveIndex] = useState(0);
   const [currentID, setCurrentID] = useState(1);
+  const [totalPokemon, setTotalPokemon] = useState(1000);
   const [loadingStates, setLoadingStates] = useState([false, false]); // first bool: directory, second bool: details
+  const [directoryLoadingState, setDirectoryLoadingState] = useState(false);
+  const [detailsLoadingState, setDetailsLoadingState] = useState(false);
+
+  // useEffect(() => {
+  //   // directory offset: for api argument values and ID reset on directory page change
+  //   setDirectoryOffset((directoryPage - 1) * 8);
+  // }, [directoryPage]);
+
+  // useEffect(() => {
+  //   // id: reset to directoryOffste + 1 so active index on directory is first option on every page change
+  //   setCurrentID(directoryOffset + 1);
+  // }, [directoryOffset]);
 
   useEffect(() => {
-    // directory offset: for api argument values and ID reset on directory page change
-    setDirectoryOffset((directoryPage - 1) * 8);
-  }, [directoryPage]);
-
-  useEffect(() => {
-    // id: reset to directoryOffste + 1 so active index on directory is first option on every page change
-    setCurrentID(directoryOffset + 1);
-  }, [directoryOffset]);
-
-  useEffect(() => {
-    console.log("currentID", currentID);
-  }, [currentID]);
+    setLoadingStates([directoryLoadingState, detailsLoadingState]);
+  }, [directoryLoadingState, detailsLoadingState]);
 
   useEffect(() => {
     console.log("loadingStates", loadingStates);
@@ -51,7 +58,20 @@ export default function Dex() {
                   <LoadingStatesContext.Provider
                     value={[loadingStates, setLoadingStates]}
                   >
-                    <Shell />
+                    <DirectoryLoadingStateContext.Provider
+                      value={[directoryLoadingState, setDirectoryLoadingState]}
+                    >
+                      <DetailsLoadingStateContext.Provider
+                        value={[detailsLoadingState, setDetailsLoadingState]}
+                      >
+                        <TotalPokemonContext.Provider
+                          value={[totalPokemon, setTotalPokemon]}
+                        >
+                          <Search />
+                          <Shell />
+                        </TotalPokemonContext.Provider>
+                      </DetailsLoadingStateContext.Provider>
+                    </DirectoryLoadingStateContext.Provider>
                   </LoadingStatesContext.Provider>
                 </DirectoryActiveIndexContext.Provider>
               </CurrentIDContext.Provider>

@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   CurrentIDContext,
   DirectoryActiveIndexContext,
+  DirectoryLoadingStateContext,
   DirectoryOffsetContext,
   DirectoryPageContext,
   LoadingStatesContext,
@@ -15,17 +16,29 @@ export default function Directory() {
   const [directoryOffset, setDirectoryOffset] = useContext(
     DirectoryOffsetContext
   );
-  const [directoryPage, setDirectoryPage] = useContext(DirectoryPageContext);
+  // const [directoryPage, setDirectoryPage] = useContext(DirectoryPageContext);
   const [directoryActiveIndex, setDirectoryActiveIndex] = useContext(
     DirectoryActiveIndexContext
   );
   const [currentID, setCurrentID] = useContext(CurrentIDContext);
   const [loadingStates, setLoadingStates] = useContext(LoadingStatesContext);
+  const [directoryLoadingState, setDirectoryLoadingState] = useContext(
+    DirectoryLoadingStateContext
+  );
   const [currentPagePokemon, setCurrentPagePokemon] = useState(null);
+  const [directoryItems, setDirectoryItems] = useState([]);
+
+  useEffect(() => {
+    setDirectoryItems(directoryContent());
+  }, []);
 
   useEffect(() => {
     fetchDirectoryPokemon();
   }, [directoryOffset]);
+
+  useEffect(() => {
+    setDirectoryItems(directoryContent());
+  }, [directoryActiveIndex, currentPagePokemon]);
 
   const formatDirectoryItem = (id, name) => {
     var nameCaps = name[0].toUpperCase() + name.slice(1);
@@ -38,7 +51,7 @@ export default function Directory() {
     } else if (id >= 1000 && id < 10000) {
       return "#" + id + " " + nameCaps;
     } else {
-      return "formatError";
+      return "";
     }
   };
 
@@ -58,14 +71,14 @@ export default function Directory() {
   };
 
   const fetchDirectoryPokemon = async () => {
-    setLoadingStates([true, loadingStates[1]]);
+    // setLoadingStates([true, loadingStates[1]]);
+    setDirectoryLoadingState(true);
     const res = await axios.get(
       `https://pokeapi.co/api/v2/pokemon?offset=${directoryOffset}&limit=8`
     );
-
-    console.log(res.data.results);
     setCurrentPagePokemon(res.data.results);
-    setLoadingStates([false, loadingStates[1]]);
+    // setLoadingStates([false, loadingStates[1]]);
+    setDirectoryLoadingState(false);
   };
 
   return (
@@ -77,7 +90,7 @@ export default function Directory() {
             loadingStates[0] == true ? "hidden" : ""
           }`}
         >
-          {directoryContent()}
+          {directoryItems}
         </div>
         <div
           className={`directory-loading ${

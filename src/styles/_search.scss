@@ -1,0 +1,80 @@
+@use "variables" as *;
+
+.search {
+  width: 100vw;
+  height: 120vh;
+  position: fixed;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+  .search-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .search-modal {
+      height: 20vw;
+      width: 35vw;
+      background-color: $background-color-gray;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2vh;
+      position: relative;
+      .search-modal-close-button {
+        position: absolute;
+        top: 1vw;
+        right: 1.5vw;
+        width: 2.5vw;
+        height: 2.5vw;
+        background-color: rgba(0, 0, 0, 0);
+        border: none;
+        font-size: 3vw;
+        color: white;
+        @media not all and (hover: none) {
+          cursor: pointer;
+        }
+      }
+      .search-modal-instructions {
+        font-size: 1.8vw;
+        color: white;
+      }
+      .search-modal-form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2vh;
+        .search-modal-bar {
+          font-size: 1.6vw;
+          width: 70%;
+          height: 2vw;
+          text-align: center;
+        }
+        .search-modal-submit-button {
+          width: 70%;
+          height: 2vw;
+          background-color: white;
+          border: none;
+          border-radius: 0.3vw;
+          font-size: 1.2vw;
+        }
+      }
+      .search-modal-message {
+        position: absolute;
+        color: white;
+        font-size: 1.2vw;
+        font-style: italic;
+        bottom: 2vw;
+        &.hidden {
+          visibility: hidden;
+          opacity: 0;
+        }
+      }
+    }
+  }
+}

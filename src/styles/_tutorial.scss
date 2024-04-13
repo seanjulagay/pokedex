@@ -1,0 +1,108 @@
+@use "variables" as *;
+
+.tutorial {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.5);
+  &.hidden {
+    visibility: hidden;
+    opacity: 0;
+  }
+  * {
+    // outline: 1px solid white;
+  }
+  .tutorial-container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    button {
+      color: white;
+    }
+    .tutorial-modal {
+      height: 40vw;
+      width: 70vw;
+      background-color: $background-color-gray;
+      .tutorial-modal-container {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        .tutorial-modal-top-container {
+          flex: 1;
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          .tutorial-modal-page-number {
+            font-size: 1.4vw;
+            position: absolute;
+            right: 50%;
+            margin-top: 3vw;
+            // margin: 0 auto;
+          }
+          .tutorial-modal-close-button {
+            margin-right: 4vw;
+            height: 2.5vw;
+            width: 2.5vw;
+            background-color: rgba(0, 0, 0, 0);
+            border: none;
+            font-size: 3vw;
+            @media not all and (hover: none) {
+              cursor: pointer;
+            }
+          }
+        }
+        .tutorial-modal-body {
+          flex: 5;
+          display: flex;
+          .tutorial-modal-arrow-container {
+            flex: 1;
+            display: flex;
+            // justify-content: center;
+            align-items: stretch;
+            .tutorial-modal-arrow-button {
+              flex-grow: 1;
+              font-size: 3vw;
+              font-weight: 700;
+              background-color: rgba(0, 0, 0, 0);
+              border: none;
+              @media not all and (hover: none) {
+                cursor: pointer;
+              }
+            }
+          }
+          .tutorial-modal-content-container {
+            flex: 9;
+            display: flex;
+            flex-direction: column;
+            .tutorial-modal-image {
+              flex: 4;
+              background-size: contain;
+              background-repeat: no-repeat;
+              background-position: center;
+            }
+            .tutorial-modal-text-container {
+              flex: 2;
+              display: flex;
+              flex-direction: column;
+              // justify-content: center;
+              align-items: center;
+              text-align: center;
+              .tutorial-modal-text-header {
+                font-size: 2vw;
+                margin-bottom: 1vw;
+              }
+              .tutorial-modal-text-body {
+                font-size: 1.2vw;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

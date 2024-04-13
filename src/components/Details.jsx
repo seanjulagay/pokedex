@@ -2,6 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import {
   CurrentIDContext,
+  DetailsLoadingStateContext,
   DirectoryOffsetContext,
   LoadingStatesContext,
 } from "./Dex";
@@ -14,10 +15,12 @@ export default function Details({ innerRef }) {
   );
   const [currentID, setCurrentID] = useContext(CurrentIDContext);
   const [loadingStates, setLoadingStates] = useContext(LoadingStatesContext);
+  const [detailsLoadingState, setDetailsLoadingState] = useContext(
+    DetailsLoadingStateContext
+  );
   const [totalPokemon, setTotalPokemon] = useContext(PokemonCountContext);
   const [mainData, setMainData] = useState(null);
   const [speciesData, setSpeciesData] = useState(null);
-  const [flavorTexts, setFlavorTexts] = useState(null);
 
   useEffect(() => {
     preloadPageSprites();
@@ -28,20 +31,6 @@ export default function Details({ innerRef }) {
   }, [currentID]);
 
   useEffect(() => {
-    if (mainData) {
-      console.log("mainData", mainData.types);
-      // mainData.types.forEach((arr) => console.log(arr.type.name));
-      // console.log("blah", types.join(", "));
-    }
-  }, [mainData]);
-
-  useEffect(() => {
-    if (speciesData) {
-      console.log("speciesData", speciesData);
-    }
-  }, [speciesData]);
-
-  useEffect(() => {
     preloadPageSprites();
   }, [directoryOffset]);
 
@@ -50,15 +39,20 @@ export default function Details({ innerRef }) {
       const img = new Image();
       img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${currentID}.png`;
     }
+
+    // load previous set of sprites
     if (directoryOffset > 0) {
+      console.log("loading previous sprites...");
       for (let i = directoryOffset - 8; i < directoryOffset; i++) {
         const img = new Image();
         img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i}.png`;
       }
     }
 
+    console.log("directoryOffset", directoryOffset);
+    // load next set of sprites
     if (directoryOffset < totalPokemon) {
-      console.log("PRELOADING NEXT SPRITES");
+      console.log("loading next sprites...");
       for (let i = directoryOffset + 8; i < directoryOffset + 16; i++) {
         const img = new Image();
         img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i}.png`;
@@ -67,18 +61,17 @@ export default function Details({ innerRef }) {
   };
 
   const fetchPokemonDetails = async () => {
-    setLoadingStates((loadingStates) => [loadingStates[0], true]);
-    const mainDataRes = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon/${currentID}`
-    );
-    const speciesDataRes = await axios.get(
-      `https://pokeapi.co/api/v2/pokemon-species/${currentID}`
-    );
+    setDetailsLoadingState(true);
+
+    const [mainDataRes, speciesDataRes] = await Promise.all([
+      axios.get(`https://pokeapi.co/api/v2/pokemon/${currentID}`),
+      axios.get(`https://pokeapi.co/api/v2/pokemon-species/${currentID}`),
+    ]);
 
     setMainData(mainDataRes.data);
     setSpeciesData(speciesDataRes.data);
 
-    setLoadingStates((loadingStates) => [loadingStates[0], false]);
+    setDetailsLoadingState(false);
   };
 
   const getPokemonDesc = () => {

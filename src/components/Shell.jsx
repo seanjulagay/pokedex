@@ -15,8 +15,9 @@ import {
   DirectoryPageContext,
   LoadingStatesContext,
   ShellOpenedContext,
+  TotalPokemonContext,
 } from "./Dex";
-import { AppLoadedContext } from "./App";
+import { AppLoadedContext, SearchModalContext } from "./App";
 import dexShellClosed from "../../public/images/dex/dex-closed.png";
 import dexShellOpened from "../../public/images/dex/dex-opened.png";
 import dexPowerButton from "../../public/images/dex/dex-power-button.png";
@@ -46,7 +47,8 @@ export default function Shell() {
   );
   const [currentID, setCurrentID] = useContext(CurrentIDContext);
   const [loadingStates, setLoadingStates] = useContext(LoadingStatesContext);
-  const [totalPokemon, setTotalPokemon] = useState(1000);
+  const [searchOpened, setSearchOpened] = useContext(SearchModalContext);
+  const [totalPokemon, setTotalPokemon] = useContext(TotalPokemonContext);
 
   const detailsRef = useRef(null);
 
@@ -79,8 +81,36 @@ export default function Shell() {
     fetchTotalPokemonCount();
   }, []);
 
+  useEffect(() => {
+    const idIndex = currentID - 1;
+    const page = Math.floor(idIndex / 8); // explicit declaration of new page value to account for search functionality
+    const dirOffset = page * 8;
+    // console.log("dirOffset", dirOffset, "idIndex", idIndex);
+    setDirectoryOffset(dirOffset);
+
+    if (idIndex == dirOffset) {
+      setDirectoryActiveIndex(0);
+    } else {
+      setDirectoryActiveIndex(idIndex - dirOffset);
+    }
+
+    // setDirectoryActiveIndex(currentID - 1 - dirOffset);
+    // console.log("currentID", currentID);
+  }, [currentID]);
+
+  useEffect(() => {
+    // console.log("directoryOffset", directoryOffset);
+    setDirectoryPage(Math.floor(currentID / 8) + 1);
+  }, [directoryOffset]);
+
+  useEffect(() => {
+    // console.log("directoryPage", directoryPage);
+  }, [directoryPage]);
+
   const fetchTotalPokemonCount = async () => {
-    const response = await axios.get(`https://pokeapi.co/api/v2/pokemon`);
+    const response = await axios.get(
+      `https://pokeapi.co/api/v2/pokemon-species`
+    );
     setTotalPokemon(response.data.count);
   };
 
@@ -96,32 +126,40 @@ export default function Shell() {
 
     if (loadingStates[0] == false && loadingStates[1] == false) {
       if (direction == "up") {
-        if (currentID < totalPokemon && currentID > directoryOffset + 1) {
-          setCurrentID((currentID) => currentID - 1);
-          setDirectoryActiveIndex(
-            (directoryActiveIndex) => directoryActiveIndex - 1
-          );
+        if (currentID > 1) {
+          setCurrentID(currentID - 1);
+          // setCurrentID((currentID) => currentID - 1);
+          // setDirectoryActiveIndex(
+          //   (directoryActiveIndex) => directoryActiveIndex - 1
+          // );
           resetScroll();
         }
       } else if (direction == "down") {
-        if (currentID > 0 && currentID < totalPokemon) {
-          if (currentID < directoryPage * 8) {
-            setCurrentID((currentID) => currentID + 1);
-            setDirectoryActiveIndex(
-              (directoryActiveIndex) => directoryActiveIndex + 1
-            );
-          }
-          resetScroll();
+        // if (currentID > 0 && currentID < totalPokemon) {
+        //   if (currentID <= totalPokemon) {
+        //     setCurrentID(currentID + 1);
+        //     // setCurrentID((currentID) => currentID + 1);
+        //     // setDirectoryActiveIndex(
+        //     //   (directoryActiveIndex) => directoryActiveIndex + 1
+        //     // );
+        //   }
+        //   resetScroll();
+        // }
+        if (currentID < totalPokemon) {
+          setCurrentID(currentID + 1);
         }
+        resetScroll();
       } else if (direction == "left") {
         if (directoryPage > 1) {
-          setDirectoryPage((directoryPage) => directoryPage - 1);
-          setDirectoryActiveIndex(0);
+          setCurrentID(currentID - 8);
+          // setDirectoryPage((directoryPage) => directoryPage - 1);
+          // setDirectoryActiveIndex(0);
         }
       } else if (direction == "right") {
         if (directoryPage <= totalPages) {
-          setDirectoryPage((directoryPage) => directoryPage + 1);
-          setDirectoryActiveIndex(0);
+          setCurrentID(currentID + 8);
+          // setDirectoryPage((directoryPage) => directoryPage + 1);
+          // setDirectoryActiveIndex(0);
         }
       }
     }
@@ -195,6 +233,7 @@ export default function Shell() {
             </div>
           </div>
           <div
+            onClick={() => setSearchOpened(true)}
             style={{ backgroundImage: `url(${dexSearchBtn})` }}
             className={`shell-search-btn shell-interactable ${
               shellOpened ? "" : "hidden"
