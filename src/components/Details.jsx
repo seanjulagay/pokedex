@@ -21,12 +21,16 @@ export default function Details({ innerRef }) {
   const [totalPokemon, setTotalPokemon] = useContext(PokemonCountContext);
   const [mainData, setMainData] = useState(null);
   const [speciesData, setSpeciesData] = useState(null);
+  const [pokemonSprite, setPokemonSprite] = useState(null);
 
   useEffect(() => {
     preloadPageSprites();
   }, []);
 
   useEffect(() => {
+    setPokemonSprite(
+      `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${currentID}.png`
+    );
     fetchPokemonDetails();
   }, [currentID]);
 
@@ -131,11 +135,7 @@ export default function Details({ innerRef }) {
         }`}
       >
         <div className="details-sprite-container">
-          <img
-            src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${currentID}.png`}
-            alt=""
-            className="details-sprite"
-          />
+          <img src={pokemonSprite} alt="" className="details-sprite" />
         </div>
         <span className="details-header">
           {mainData ? capitalizeFirst(mainData.name) : ""} -{" "}
