@@ -30,9 +30,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  @media only screen and (max-height: 300px) {
-    margin-top: 2rem;
-  }
+}
+
+#root {
+  margin: auto 0;
 }
 
 .outside-text {
