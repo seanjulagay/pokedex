@@ -5,7 +5,7 @@ export default function Blocker() {
     <div className="blocker">
       <div className="blocker-container">
         <h1 className="blocker-text">
-          Hi! Your device is too slim to properly view this app in portrait
+          Hi! Your device is too small to properly view this app in portrait
           mode.
           <br />
           <br />
