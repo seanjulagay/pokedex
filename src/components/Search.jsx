@@ -4,6 +4,7 @@ import {
   CurrentIDContext,
   DirectoryActiveIndexContext,
   DirectoryOffsetContext,
+  ResetDetailsScrollContext,
   TotalPokemonContext,
 } from "./Dex";
 
@@ -11,6 +12,9 @@ export default function Search() {
   const [searchOpened, setSearchOpened] = useContext(SearchModalContext);
   const [currentID, setCurrentID] = useContext(CurrentIDContext);
   const [totalPokemon, setTotalPokemon] = useContext(TotalPokemonContext);
+  const [resetDetailsScroll, setResetDetailsScroll] = useContext(
+    ResetDetailsScrollContext
+  );
   const [searchText, setSearchText] = useState("");
   const [errorMsg, setErrorMsg] = useState(null);
 
@@ -25,16 +29,19 @@ export default function Search() {
     const parsedText = parseInt(searchText);
 
     if (Number.isNaN(parsedText)) {
-      setErrorMsg("Error! Value is not an integer.");
+      setErrorMsg("Oops! Please enter a valid number.");
     } else if (Number.isInteger(parsedText)) {
       if (parsedText > 0 && parsedText <= totalPokemon) {
         setCurrentID(parsedText);
         setErrorMsg("");
         setSearchOpened(false);
       } else {
-        setErrorMsg(`Error! Enter a value between 1 and ${totalPokemon}`);
+        setErrorMsg(
+          `Oops! Please enter a value between 1 and ${totalPokemon}.`
+        );
       }
     }
+    setResetDetailsScroll(true);
   };
 
   const handleSearchBarChange = (event) => {

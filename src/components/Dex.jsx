@@ -11,6 +11,7 @@ export const TotalPokemonContext = createContext(null);
 export const LoadingStatesContext = createContext(null);
 export const DirectoryLoadingStateContext = createContext(null);
 export const DetailsLoadingStateContext = createContext(null);
+export const ResetDetailsScrollContext = createContext(null);
 
 export default function Dex() {
   const [shellOpened, setShellOpened] = useState(false);
@@ -22,24 +23,11 @@ export default function Dex() {
   const [loadingStates, setLoadingStates] = useState([false, false]); // first bool: directory, second bool: details
   const [directoryLoadingState, setDirectoryLoadingState] = useState(false);
   const [detailsLoadingState, setDetailsLoadingState] = useState(false);
-
-  // useEffect(() => {
-  //   // directory offset: for api argument values and ID reset on directory page change
-  //   setDirectoryOffset((directoryPage - 1) * 8);
-  // }, [directoryPage]);
-
-  // useEffect(() => {
-  //   // id: reset to directoryOffste + 1 so active index on directory is first option on every page change
-  //   setCurrentID(directoryOffset + 1);
-  // }, [directoryOffset]);
+  const [resetDetailsScroll, setResetDetailsScroll] = useState(false);
 
   useEffect(() => {
     setLoadingStates([directoryLoadingState, detailsLoadingState]);
   }, [directoryLoadingState, detailsLoadingState]);
-
-  useEffect(() => {
-    console.log("loadingStates", loadingStates);
-  }, [loadingStates]);
 
   return (
     <div className="dex">
@@ -67,8 +55,12 @@ export default function Dex() {
                         <TotalPokemonContext.Provider
                           value={[totalPokemon, setTotalPokemon]}
                         >
-                          <Search />
-                          <Shell />
+                          <ResetDetailsScrollContext.Provider
+                            value={[resetDetailsScroll, setResetDetailsScroll]}
+                          >
+                            <Search />
+                            <Shell />
+                          </ResetDetailsScrollContext.Provider>
                         </TotalPokemonContext.Provider>
                       </DetailsLoadingStateContext.Provider>
                     </DirectoryLoadingStateContext.Provider>

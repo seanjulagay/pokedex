@@ -42,17 +42,17 @@ export default function Details({ innerRef }) {
 
     // load previous set of sprites
     if (directoryOffset > 0) {
-      console.log("loading previous sprites...");
+      // console.log("loading previous sprites...");
       for (let i = directoryOffset - 8; i < directoryOffset; i++) {
         const img = new Image();
         img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i}.png`;
       }
     }
 
-    console.log("directoryOffset", directoryOffset);
+    // console.log("directoryOffset", directoryOffset);
     // load next set of sprites
     if (directoryOffset < totalPokemon) {
-      console.log("loading next sprites...");
+      // console.log("loading next sprites...");
       for (let i = directoryOffset + 8; i < directoryOffset + 16; i++) {
         const img = new Image();
         img.src = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${i}.png`;

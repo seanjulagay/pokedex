@@ -14,6 +14,7 @@ import {
   DirectoryOffsetContext,
   DirectoryPageContext,
   LoadingStatesContext,
+  ResetDetailsScrollContext,
   ShellOpenedContext,
   TotalPokemonContext,
 } from "./Dex";
@@ -49,6 +50,9 @@ export default function Shell() {
   const [loadingStates, setLoadingStates] = useContext(LoadingStatesContext);
   const [searchOpened, setSearchOpened] = useContext(SearchModalContext);
   const [totalPokemon, setTotalPokemon] = useContext(TotalPokemonContext);
+  const [resetDetailsScroll, setResetDetailsScroll] = useContext(
+    ResetDetailsScrollContext
+  );
 
   const detailsRef = useRef(null);
 
@@ -106,6 +110,13 @@ export default function Shell() {
   useEffect(() => {
     // console.log("directoryPage", directoryPage);
   }, [directoryPage]);
+
+  useEffect(() => {
+    if (resetDetailsScroll) {
+      resetScroll();
+    }
+    setResetDetailsScroll(false);
+  }, [resetDetailsScroll]);
 
   const fetchTotalPokemonCount = async () => {
     const response = await axios.get(
