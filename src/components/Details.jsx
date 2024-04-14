@@ -80,14 +80,28 @@ export default function Details({ innerRef }) {
 
   const getPokemonDesc = () => {
     const flavorTexts = [];
+    const firstWordsArr = [];
+    let firstWords = "";
 
     speciesData.flavor_text_entries.forEach((element) => {
       if (element.language.name == "en") {
-        flavorTexts.push(cleanupText(element.flavor_text));
+        // if (flavorTexts.includes(element.flavor_text) == false) {
+        //   console.log("False");
+        //   flavorTexts.push(cleanupText(element.flavor_text));
+        // } else {
+        //   console.log("true");
+        // }
+
+        firstWords = element.flavor_text.split(" ", 3).join(" ");
+        if (firstWordsArr.includes(firstWords) == false) {
+          console.log("false");
+          firstWordsArr.push(firstWords);
+          flavorTexts.push(cleanupText(element.flavor_text));
+        }
       }
     });
 
-    return flavorTexts.slice(0, 2).join(" ");
+    return flavorTexts.slice(0, 3).join(" ");
   };
 
   const formatID = (id) => {
