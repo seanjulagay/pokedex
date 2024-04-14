@@ -39,6 +39,10 @@
         margin-top: 10%;
         image-rendering: pixelated;
       }
+      .link-text {
+        color: $hyperlink-blue;
+        text-decoration: underline;
+      }
     }
   }
 }
