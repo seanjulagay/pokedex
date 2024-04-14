@@ -15,8 +15,8 @@ export default function Blocker() {
           <img src={rotateIcon} alt="" className="rotate-icon" />
           <br />
           <br />
-          If it won't rotate, please select "open in [external] browser" in the
-          settings.
+          If it won't rotate, please select "open in [external] browser" in your
+          app settings.
           <br />
           <br />
           Or open your dedicated browser and enter
