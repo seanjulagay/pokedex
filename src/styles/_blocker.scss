@@ -33,6 +33,12 @@
       font-weight: 400;
       font-size: $hints-font-size;
       margin: clamp(2rem, 5vw, 10rem);
+      .rotate-icon {
+        max-height: 5rem;
+        max-width: 5rem;
+        margin-top: 10%;
+        image-rendering: pixelated;
+      }
     }
   }
 }

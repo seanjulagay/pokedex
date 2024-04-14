@@ -1,4 +1,5 @@
 import React from "react";
+import rotateIcon from "../../public/images/rotate-icon.png";
 
 export default function Blocker() {
   return (
@@ -11,6 +12,7 @@ export default function Blocker() {
           <br />
           Please rotate your device to a landscape orientation.
           <br />
+          <img src={rotateIcon} alt="" className="rotate-icon" />
           {/* <br />
           If you're on PC, please resize your window to have a longer width than
           height. */}
